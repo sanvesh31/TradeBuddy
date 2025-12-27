@@ -30,21 +30,22 @@ holding_days = st.slider("Holding Period (Days)", 1, 30, 7)
 
 if st.button("📈 Analyze Trade"):
 
-    if stock == "":
+    if stock.strip() == "":
         st.error("Please enter a stock symbol")
     else:
         with st.spinner("Fetching market data..."):
-            data = yf.download(stock, period="3mo")
+            data = yf.download(stock, period="3mo", progress=False)
 
-        if data.empty:
-            st.error("Invalid stock symbol or data not available")
+        if data.empty or 'Close' not in data:
+            st.error("Invalid stock symbol or no data available")
         else:
-            current_price = float(data['Close'][-1])
+            # ✅ SAFE indexing
+            current_price = float(data['Close'].iloc[-1])
             quantity = investment / current_price
 
             # Moving Average
             data['SMA20'] = data['Close'].rolling(20).mean()
-            sma_value = float(data['SMA20'][-1])
+            sma_value = float(data['SMA20'].iloc[-1])
 
             # Trend logic
             if current_price > sma_value:
@@ -75,8 +76,8 @@ if st.button("📈 Analyze Trade"):
             # ---------------- CHART ----------------
             st.subheader("📈 Price Trend")
             fig, ax = plt.subplots()
-            ax.plot(data['Close'], label="Close Price")
-            ax.plot(data['SMA20'], label="20-Day SMA")
+            ax.plot(data.index, data['Close'], label="Close Price")
+            ax.plot(data.index, data['SMA20'], label="20-Day SMA")
             ax.legend()
             st.pyplot(fig)
 
