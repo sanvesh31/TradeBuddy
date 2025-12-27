@@ -21,7 +21,7 @@ with col2:
 st.markdown(
     """
     <h1 style='text-align:center;color:#00ffcc;'>📊 TradeBuddy</h1>
-    <h4 style='text-align:center;'>Smart Trading Assistant for Beginners</h4>
+    <h4 style='text-align:center;'>Smart Trading Assistant</h4>
     <p style='text-align:center;'>Created By <b>Sanvesh Roy</b></p>
     <hr>
     """,
@@ -106,4 +106,5 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
