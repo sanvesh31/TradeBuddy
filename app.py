@@ -87,7 +87,7 @@ company_name = st.selectbox(
 
 investment = st.number_input(
     "Investment Amount (₹)",
-    min_value=1000.0,
+    min_value=100.0,
     step=500.0
 )
 
@@ -164,3 +164,4 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
