@@ -15,7 +15,7 @@ logo_url = "https://i.ibb.co/pjpJb30Q/logo.png"
 
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.image(logo_url, width=280)   
+    st.image(logo_url, width=200)   
 
 # HEADER 
 st.markdown(
@@ -106,3 +106,4 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
