@@ -11,11 +11,14 @@ st.set_page_config(
 )
 
 # LOGO 
-logo_url = "https://i.ibb.co/pjpJb30Q/logo.png"
-
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    st.image(logo_url, width=200)   
+st.markdown(
+    """
+    <div style="display:flex; justify-content:center; align-items:center; margin-top:10px;">
+        <img src="https://i.ibb.co/pjpJb30Q/logo.png" width="180">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # HEADER 
 st.markdown(
@@ -106,5 +109,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
