@@ -3,14 +3,21 @@ import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# ---------------- PAGE CONFIG ----------------
+# PAGE CONFIG 
 st.set_page_config(
     page_title="TradeBuddy",
     page_icon="📊",
     layout="centered"
 )
 
-# ---------------- HEADER ----------------
+# LOGO 
+logo_url = "https://i.ibb.co/pjpJb30Q/logo.png"
+
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    st.image(logo_url, width=280)   
+
+# HEADER 
 st.markdown(
     """
     <h1 style='text-align:center;color:#00ffcc;'>📊 TradeBuddy</h1>
@@ -21,11 +28,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# ---------------- USER INPUT ----------------
+#  USER INPUT
 st.subheader("🔎 Enter Trade Details")
 
 stock = st.text_input("Stock Symbol (Example: TCS.NS, INFY.NS)")
-investment = st.number_input("Investment Amount (₹)", min_value=1000.0, step=500.0)
+investment = st.number_input("Investment Amount (₹)", min_value=100.0, step=500.0)
 holding_days = st.slider("Holding Period (Days)", 1, 30, 7)
 
 if st.button("📈 Analyze Trade"):
@@ -39,7 +46,7 @@ if st.button("📈 Analyze Trade"):
         if data.empty or 'Close' not in data:
             st.error("Invalid stock symbol or no data available")
         else:
-            # ✅ SAFE indexing
+            #  SAFE DATA ACCESS
             current_price = float(data['Close'].iloc[-1])
             quantity = investment / current_price
 
@@ -47,7 +54,7 @@ if st.button("📈 Analyze Trade"):
             data['SMA20'] = data['Close'].rolling(20).mean()
             sma_value = float(data['SMA20'].iloc[-1])
 
-            # Trend logic
+            # Trend Logic
             if current_price > sma_value:
                 trend = "UPTREND 📈"
                 growth = 0.05
@@ -55,13 +62,13 @@ if st.button("📈 Analyze Trade"):
                 trend = "DOWNTREND 📉"
                 growth = -0.03
 
-            # Profit calculation
+            # Profit Calculation
             expected_price = current_price * (1 + growth)
             expected_value = expected_price * quantity
             profit = expected_value - investment
             profit_percent = (profit / investment) * 100
 
-            # ---------------- OUTPUT ----------------
+            #  OUTPUT 
             st.subheader("📊 Trade Summary")
 
             c1, c2, c3 = st.columns(3)
@@ -73,21 +80,23 @@ if st.button("📈 Analyze Trade"):
             st.write(f"**Expected Profit / Loss:** ₹{profit:.2f}")
             st.write(f"**Profit Percentage:** {profit_percent:.2f}%")
 
-            # ---------------- CHART ----------------
-            st.subheader("📈 Price Trend")
-            fig, ax = plt.subplots()
+            #  CHART 
+            st.subheader("📈 Price Trend Analysis")
+            fig, ax = plt.subplots(figsize=(8, 4))
             ax.plot(data.index, data['Close'], label="Close Price")
             ax.plot(data.index, data['SMA20'], label="20-Day SMA")
+            ax.set_xlabel("Date")
+            ax.set_ylabel("Price (₹)")
             ax.legend()
             st.pyplot(fig)
 
-            # ---------------- ADVICE ----------------
+            #  ADVICE 
             if profit > 0:
                 st.success("✅ Trade looks profitable for short-term holding.")
             else:
                 st.warning("⚠️ Risky trade. Consider HOLD or EXIT.")
 
-# ---------------- FOOTER ----------------
+#  FOOTER 
 st.markdown(
     """
     <hr>
